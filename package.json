@@ -23,8 +23,8 @@
     "brand:assets": "node scripts/generate-brand-assets.mjs"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.7.3",
-    "astro": "^7.3.1",
+    "@astrojs/sitemap": "^3.7.6",
+    "astro": "^7.4.13",
     "astro-icon": "^1.1.5",
     "astro-seo": "^1.2.0",
     "limax": "4.2.3",
@@ -32,8 +32,8 @@
     "unpic": "^4.2.2"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.10",
-    "@astrojs/markdown-remark": "^7.3.0",
+    "@astrojs/check": "^0.9.12",
+    "@astrojs/markdown-remark": "^7.3.10",
     "@eslint/js": "^10.0.1",
     "@iconify-json/flat-color-icons": "^1.2.3",
     "@iconify-json/tabler": "^1.2.38",
@@ -44,9 +44,9 @@
     "@typescript-eslint/eslint-plugin": "^8.66.0",
     "@typescript-eslint/parser": "^8.66.0",
     "astro-compress": "^2.4.3",
-    "astro-eslint-parser": "^3.0.0",
+    "astro-eslint-parser": "^3.2.0",
     "eslint": "^10.8.1",
-    "eslint-plugin-astro": "^3.1.0",
+    "eslint-plugin-astro": "^3.2.1",
     "globals": "^17.9.0",
     "js-yaml": "^4.3.2",
     "mdast-util-to-string": "^4.0.0",
