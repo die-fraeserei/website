@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+  <title>Die Fräserei</title>
+  <!-- spindle -->
+  <rect x="18" y="4" width="28" height="19" rx="3"/>
+  <path d="M22 23v5h20v-5"/>
+  <path d="M29 28v5h6v-5"/>
+  <!-- end mill -->
+  <path d="M28 33h8l-4 14z" fill="currentColor"/>
+  <!-- chips -->
+  <path d="M43 36l3-4M47 40l4-3" stroke-width="2.5"/>
+  <!-- wood block with the cut -->
+  <path d="M5 46H24Q32 54 40 46H59V60H5Z"/>
+  <path d="M10 55q6-2.5 12 0t12 0t12 0t8-1" stroke-width="2"/>
+</svg>

@@ -1,0 +1,55 @@
+---
+// Impressum (legal notice, § 5 DDG). Data comes from src/data/business.ts.
+// TODO(owner): fill in src/data/business.ts and have the text checked before going live.
+import MarkdownLayout from '~/layouts/MarkdownLayout.astro';
+import { BUSINESS, phoneHref } from '~/data/business';
+---
+
+<MarkdownLayout frontmatter={{ title: 'Impressum' }}>
+  <h2>Angaben gemäß § 5 DDG</h2>
+  <p>
+    {BUSINESS.name}<br />
+    Inhaber: {BUSINESS.owner}<br />
+    {BUSINESS.street}<br />
+    {BUSINESS.postalCode}
+    {BUSINESS.city}<br />
+    {BUSINESS.country}
+  </p>
+
+  <h2>Kontakt</h2>
+  <p>
+    E-Mail: <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>
+    {
+      BUSINESS.phone && (
+        <>
+          <br />
+          Telefon: <a href={phoneHref(BUSINESS.phone)}>{BUSINESS.phone}</a>
+        </>
+      )
+    }
+  </p>
+
+  {
+    BUSINESS.vatId && (
+      <>
+        <h2>Umsatzsteuer-ID</h2>
+        <p>Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz: {BUSINESS.vatId}</p>
+      </>
+    )
+  }
+  {BUSINESS.smallBusinessNote && <p>{BUSINESS.smallBusinessNote}</p>}
+
+  <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+  <p>
+    {BUSINESS.owner}<br />
+    {BUSINESS.street}<br />
+    {BUSINESS.postalCode}
+    {BUSINESS.city}
+  </p>
+
+  <h2>Verbraucherstreitbeilegung</h2>
+  <p>
+    Ich bin nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle
+    teilzunehmen.
+  </p>
+</MarkdownLayout>

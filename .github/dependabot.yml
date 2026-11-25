@@ -1,0 +1,44 @@
+# Dependabot keeps npm dependencies and GitHub Actions up to date.
+# Related packages are grouped so they are updated (and tested by CI) together.
+# Major version updates are never grouped: each one arrives as its own PR.
+# A package matches the first group whose patterns fit, so order matters.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '06:00'
+      timezone: Europe/Berlin
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: deps
+      prefix-development: deps-dev
+    groups:
+      astro:
+        patterns: ['astro', '@astrojs/*', 'astro-*', 'prettier-plugin-astro', 'eslint-plugin-astro']
+        update-types: [minor, patch]
+      tailwind:
+        patterns: ['tailwindcss', '@tailwindcss/*', 'tailwind-merge']
+        update-types: [minor, patch]
+      lint-and-types:
+        patterns:
+          ['eslint', '@eslint/*', 'typescript', 'typescript-eslint', '@typescript-eslint/*', 'prettier', 'globals', '@types/*']
+        update-types: [minor, patch]
+      other-minor-and-patch:
+        patterns: ['*']
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '06:00'
+      timezone: Europe/Berlin
+    commit-message:
+      prefix: ci
+    groups:
+      github-actions:
+        patterns: ['*']

@@ -1,0 +1,27 @@
+---
+// Die Fräserei logo: simplified spindle + wood block mark (source: design/logo-mark.svg)
+// followed by the wordmark. The mark uses currentColor (primary walnut).
+import { SITE } from 'astrowind:config';
+---
+
+<span class="self-center flex items-center gap-2 ml-2 rtl:ml-0 rtl:mr-2 whitespace-nowrap">
+  <svg
+    class="w-9 h-9 text-primary"
+    viewBox="0 0 64 64"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="3.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <rect x="18" y="4" width="28" height="19" rx="3"></rect>
+    <path d="M22 23v5h20v-5"></path>
+    <path d="M29 28v5h6v-5"></path>
+    <path d="M28 33h8l-4 14z" fill="currentColor"></path>
+    <path d="M43 36l3-4M47 40l4-3" stroke-width="2.5"></path>
+    <path d="M5 46H24Q32 54 40 46H59V60H5Z"></path>
+    <path d="M10 55q6-2.5 12 0t12 0t12 0t8-1" stroke-width="2"></path>
+  </svg>
+  <span class="font-heading font-extrabold uppercase text-2xl tracking-wide text-heading">{SITE?.name}</span>
+</span>

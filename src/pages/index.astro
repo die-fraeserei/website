@@ -1,0 +1,104 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import StructuredData from '~/components/common/StructuredData.astro';
+import AboutSection from '~/components/fraeserei/AboutSection.astro';
+import ContactSection from '~/components/fraeserei/ContactSection.astro';
+import { SITE, METADATA, I18N } from 'astrowind:config';
+import { BUSINESS } from '~/data/business';
+import favIconSvg from '~/assets/favicons/favicon.svg';
+
+const metadata = {
+  title: METADATA?.title?.default,
+  ignoreTitleTemplate: true,
+};
+
+// Structured data built from config.yaml and src/data/business.ts only.
+const organizationId = `${SITE?.site}/#organization`;
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${SITE?.site}/#website`,
+    name: SITE?.name,
+    url: SITE?.site,
+    inLanguage: I18N?.language,
+    publisher: { '@id': organizationId },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    '@id': organizationId,
+    name: SITE?.name,
+    url: SITE?.site,
+    logo: new URL(favIconSvg.src, SITE?.site).toString(),
+    email: BUSINESS.email,
+    ...(BUSINESS.phone ? { telephone: BUSINESS.phone } : {}),
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <StructuredData slot="head" schema={structuredData} />
+
+  <Hero
+    tagline="CNC-Fräsarbeiten in Holz"
+    actions={[
+      { variant: 'primary', text: 'Anfrage senden', href: '#kontakt', icon: 'tabler:send' },
+      { text: 'Leistungen ansehen', href: '#leistungen' },
+    ]}
+    image={{
+      src: '~/assets/images/sticker.png',
+      alt: 'Logo der Fräserei: CNC-Spindel fräst in ein Holzstück',
+      aspect: 'auto',
+      class: 'mx-auto w-auto max-h-[22rem] md:max-h-[28rem] drop-shadow-xl',
+    }}
+  >
+    <Fragment slot="title">
+      Präzision für <span class="text-secondary">Gitarre</span> &amp; Werkstatt
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      Bodies, Hälse, Frässchablonen und Vorrichtungen – gefräst nach Maß, als Einzelstück oder Kleinserie.
+    </Fragment>
+  </Hero>
+
+  <Features
+    id="leistungen"
+    tagline="Leistungen"
+    title="Was ich für Sie fräse"
+    subtitle="Vom Rohling bis zum passgenauen Bauteil – Sie liefern die Idee oder Zeichnung, ich übernehme Programmierung und Fertigung."
+    columns={2}
+    bg={'<div class="absolute inset-0 bg-band"></div>'}
+    items={[
+      {
+        title: 'Gitarrenteile',
+        description: 'Bodies, Hälse, Kopfplatten, Pickguards sowie Fräsungen für Tonabnehmer, E-Fach und Halstasche.',
+        icon: 'tabler:guitar-pick',
+      },
+      {
+        title: 'Frässchablonen',
+        description:
+          'Präzise Schablonen aus MDF, Multiplex oder Acryl für die Oberfräse – für den Gitarrenbau und die Werkstatt.',
+        icon: 'tabler:ruler-measure',
+      },
+      {
+        title: 'Werkstattzubehör',
+        description: 'Vorrichtungen, Anschläge, Zinkenschablonen und Einzelteile für Holzwerker und Tischler.',
+        icon: 'tabler:tools',
+      },
+      {
+        title: 'Sonderanfertigungen',
+        description:
+          'Ihre Idee als Datei oder Skizze? Gemeinsam machen wir daraus ein fertiges Teil – vom Prototyp bis zur Kleinserie.',
+        icon: 'tabler:bulb',
+      },
+    ]}
+  />
+
+  <AboutSection />
+
+  <ContactSection />
+</Layout>

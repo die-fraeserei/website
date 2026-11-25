@@ -1,0 +1,22 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import { getHomePermalink } from '~/utils/permalinks';
+
+const metadata = { title: 'Seite nicht gefunden', robots: { index: false, follow: false } };
+---
+
+<Layout metadata={metadata}>
+  <section class="flex items-center p-16">
+    <div class="container flex flex-col items-center justify-center px-5 mx-auto my-8">
+      <div class="max-w-md text-center">
+        <h1 class="mb-8 font-heading font-extrabold text-9xl">
+          <span class="sr-only">Fehler</span>
+          <span class="text-primary">404</span>
+        </h1>
+        <p class="text-3xl font-semibold">Diese Seite gibt es leider nicht.</p>
+        <p class="mt-4 mb-8 text-lg text-muted">Vielleicht hilft ein Blick auf die Startseite weiter.</p>
+        <a href={getHomePermalink()} class="btn-primary">Zur Startseite</a>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,38 @@
+---
+// Die Fräserei theme: "Dark workshop – light" palette, light only (no `.dark` variant).
+// Colour tokens are documented in docs/design.md. Fonts come from Astro's native
+// Fonts API (see `fonts` in astro.config.ts and <Font /> in Layout.astro).
+---
+
+<style is:inline>
+  :root {
+    --aw-font-sans: var(--font-inter);
+    --aw-font-serif: var(--font-inter);
+    --aw-font-heading: var(--font-barlow-condensed);
+
+    /* Brand colours (derived from the sticker in docs/sticker.png) */
+    --aw-color-primary: #5c3010; /* dark walnut: buttons, links, icons */
+    --aw-color-secondary: #94601f; /* honey (deepened for AA contrast): taglines, hover */
+    --aw-color-accent: #e3b866; /* maple gold: decorative highlights only */
+
+    --aw-color-text-heading: #17110c; /* espresso */
+    --aw-color-text-default: #17110c;
+    --aw-color-text-muted: #6b5a4a;
+    --aw-color-bg-page: #f7f2ea; /* warm off-white */
+
+    /* Additional Fräserei tokens (registered in src/assets/styles/fraeserei.css) */
+    --fr-color-surface: #ece2d2; /* section backgrounds */
+    --fr-color-card: #ffffff;
+    --fr-color-line: #ddd0bc;
+    --fr-color-footer-bg: #17110c;
+    --fr-color-footer-text: #cdbba3;
+
+    /* AstroWind's "dark" background utility (`bg-dark`) is reused for the footer. */
+    --aw-color-bg-page-dark: #17110c;
+
+    ::selection {
+      background-color: #e3b866;
+      color: #17110c;
+    }
+  }
+</style>

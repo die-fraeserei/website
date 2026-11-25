@@ -1,0 +1,74 @@
+site:
+  name: Die Fräserei
+  site: 'https://die-fraeserei.de'
+  base: '/'
+  trailingSlash: false
+
+  googleSiteVerificationId: null
+
+# Default SEO metadata
+metadata:
+  title:
+    default: Die Fräserei – CNC-Fräsarbeiten in Holz
+    template: '%s – Die Fräserei'
+  description: 'CNC-Fräsarbeiten in Holz: Gitarrenteile, Frässchablonen und Werkstattzubehör – präzise gefräst nach Maß.'
+  robots:
+    index: true
+    follow: true
+  openGraph:
+    site_name: Die Fräserei
+    images:
+      - url: '~/assets/images/og-default.png'
+        width: 1200
+        height: 628
+    type: website
+  twitter:
+    cardType: summary_large_image
+
+i18n:
+  language: de
+  textDirection: ltr
+
+apps:
+  blog:
+    # Disabled for v1 (see docs/plan.md backlog). The routes in src/pages/[...blog]/ stay
+    # so the blog can be re-enabled without touching template code.
+    isEnabled: false
+    postsPerPage: 8
+
+    post:
+      isEnabled: true
+      permalink: '/%slug%' # Variables: %slug%, %year%, %month%, %day%, %hour%, %minute%, %second%, %category%
+      robots:
+        index: true
+
+    list:
+      isEnabled: true
+      pathname: 'blog'
+      robots:
+        index: true
+
+    category:
+      isEnabled: true
+      pathname: 'category'
+      robots:
+        index: true
+
+    tag:
+      isEnabled: true
+      pathname: 'tag'
+      robots:
+        index: false
+
+    isRelatedPostsEnabled: true
+    relatedPostsCount: 4
+
+# No analytics in v1 (no cookie banner needed). See docs/design.md.
+analytics:
+  vendors:
+    googleAnalytics:
+      id: null
+
+ui:
+  # Light only: the site has a single light theme and no theme toggle.
+  theme: 'light:only'

@@ -1,0 +1,54 @@
+---
+// "Über mich" section: text plus key facts.
+// TODO(owner): replace the placeholder text; add a workshop photo once available (see docs/plan.md).
+import Headline from '~/components/ui/Headline.astro';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+
+export interface Props {
+  id?: string;
+}
+
+const { id = 'ueber-mich' } = Astro.props;
+
+// TODO(owner): check / adjust these facts (machine, materials).
+const facts = [
+  { value: 'Holz', label: 'Ahorn, Erle, Esche, Nussbaum, Multiplex …' },
+  { value: 'CNC', label: '3-Achs-Portalfräse, präzise und wiederholbar' },
+  { value: 'Klein', label: 'Einzelstücke und Kleinserien' },
+];
+---
+
+<WidgetWrapper id={id} containerClass="max-w-6xl" bg={'<div class="absolute inset-0 bg-band"></div>'}>
+  <div class="grid gap-10 md:grid-cols-2 md:gap-16 items-center">
+    <div>
+      <Headline
+        tagline="Über mich"
+        title="Aus der Werkstatt"
+        classes={{ container: 'text-left mb-6 md:mx-0 md:mb-8' }}
+      />
+      <div class="space-y-4 text-lg">
+        <p>
+          Hinter der Fräserei stehe ich – Holzwerker und Gitarrenbauer aus Leidenschaft. <!-- TODO(owner) -->
+          Was als eigenes Werkstattprojekt begann, steht heute auch anderen offen: präzise CNC-Fräsarbeiten in Holz, von der
+          einzelnen Schablone bis zum fertig gefrästen Gitarrenbody.
+        </p>
+        <p class="text-muted">
+          Ich arbeite nach Ihren Zeichnungen oder entwickle die Teile gemeinsam mit Ihnen – mit Blick für Maserung,
+          saubere Kanten und Passgenauigkeit.
+        </p>
+      </div>
+    </div>
+    <div>
+      <dl class="grid gap-4">
+        {
+          facts.map(({ value, label }) => (
+            <div class="rounded-xl bg-card border border-line p-4">
+              <dt class="font-heading font-extrabold uppercase text-2xl text-primary">{value}</dt>
+              <dd class="mt-1 text-sm text-muted">{label}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</WidgetWrapper>

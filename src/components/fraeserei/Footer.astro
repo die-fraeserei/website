@@ -1,0 +1,87 @@
+---
+// Die Fräserei footer: espresso band with cream text. Replaces AstroWind's
+// widgets/Footer.astro (which relies on dark-mode utility classes).
+import { BUSINESS, phoneHref } from '~/data/business';
+import { getHomePermalink } from '~/utils/permalinks';
+
+interface Link {
+  text: string;
+  href: string;
+}
+
+export interface Props {
+  links: Array<{ title: string; links: Array<Link> }>;
+  secondaryLinks: Array<Link>;
+}
+
+const { links = [], secondaryLinks = [] } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-footer text-footer-text not-prose">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 md:py-14 grid gap-8 md:grid-cols-12">
+    <div class="md:col-span-6">
+      <a class="font-heading font-extrabold uppercase text-2xl tracking-wide text-page-light" href={getHomePermalink()}>
+        {BUSINESS.name}
+      </a>
+      <p class="mt-2 max-w-sm text-sm">CNC-Fräsarbeiten in Holz – Gitarrenteile, Schablonen und Werkstattzubehör.</p>
+    </div>
+    {
+      links.map(({ title, links }) => (
+        <div class="md:col-span-3">
+          <div class="font-semibold text-page-light mb-2">{title}</div>
+          <ul class="text-sm space-y-2">
+            {links.map(({ text, href }) => (
+              <li>
+                <a class="hover:text-accent hover:underline underline-offset-4" href={href}>
+                  {text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+    <div class="md:col-span-3">
+      <div class="font-semibold text-page-light mb-2">Kontakt</div>
+      <ul class="text-sm space-y-2">
+        <li>
+          <a class="hover:text-accent hover:underline underline-offset-4" href={`mailto:${BUSINESS.email}`}>
+            {BUSINESS.email}
+          </a>
+        </li>
+        {
+          BUSINESS.phone && (
+            <li>
+              <a class="hover:text-accent hover:underline underline-offset-4" href={phoneHref(BUSINESS.phone)}>
+                {BUSINESS.phone}
+              </a>
+            </li>
+          )
+        }
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-white/10">
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between text-sm"
+    >
+      <span>© {year} {BUSINESS.name}</span>
+      <nav aria-label="Rechtliches" class="flex gap-4">
+        {
+          secondaryLinks.map(({ text, href }) => (
+            <a class="hover:text-accent hover:underline underline-offset-4" href={href}>
+              {text}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .text-page-light {
+    color: var(--aw-color-bg-page);
+  }
+</style>
