@@ -29,8 +29,8 @@ const facts = [
       <div class="space-y-4 text-lg">
         <p>
           Hinter der Fräserei stehe ich – gelernter Gitarrenbauer und Handwerker aus Leidenschaft. <!-- TODO(owner) -->
-          Was als eigenes Werkstattprojekt begann, möchte ich auch anderen zur Verfügung stellen: präzise CNC-Frästeile, von
-          der einfachen Schablone bis zum fertig gefrästen Gitarrenhals.
+          Was als eigenes Werkstattprojekt begann, möchte ich auch anderen zur Verfügung stellen: präzise CNC-Frästeile,
+          von der einfachen Schablone bis zum fertig gefrästen Gitarrenhals.
         </p>
         <p class="text-muted">
           Ich arbeite nach euren Zeichnungen oder entwickle die Teile gemeinsam mit euch – mit Blick für Maserung,
@@ -40,14 +40,12 @@ const facts = [
     </div>
     <div>
       <dl class="grid gap-4">
-        {
-          facts.map(({ value, label }) => (
-            <div class="rounded-xl bg-card border border-line p-4">
-              <dt class="font-heading font-extrabold uppercase text-2xl text-primary">{value}</dt>
-              <dd class="mt-1 text-sm text-muted">{label}</dd>
-            </div>
-          ))
-        }
+        {facts.map(({ value, label }) => (
+          <div class="rounded-xl bg-card border border-line p-4">
+            <dt class="font-heading font-extrabold uppercase text-2xl text-primary">{value}</dt>
+            <dd class="mt-1 text-sm text-muted">{label}</dd>
+          </div>
+        ))}
       </dl>
     </div>
   </div>
