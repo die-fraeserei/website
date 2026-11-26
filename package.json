@@ -38,7 +38,7 @@
     "@iconify-json/flat-color-icons": "^1.2.3",
     "@iconify-json/tabler": "^1.2.38",
     "@tailwindcss/typography": "^0.5.20",
-    "@tailwindcss/vite": "^4.3.3",
+    "@tailwindcss/vite": "^4.3.5",
     "@types/js-yaml": "^4.0.9",
     "@types/lodash.merge": "^4.6.9",
     "@typescript-eslint/eslint-plugin": "^8.66.0",
@@ -54,7 +54,7 @@
     "prettier-plugin-astro": "^0.14.1",
     "reading-time": "^1.5.0",
     "sharp": "^0.35.3",
-    "tailwind-merge": "^3.6.0",
+    "tailwind-merge": "^3.7.1",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.66.0"
