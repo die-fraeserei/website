@@ -8,41 +8,43 @@ import { BUSINESS, phoneHref } from '~/data/business';
 <MarkdownLayout frontmatter={{ title: 'Impressum' }}>
   <h2>Angaben gemäß § 5 DDG</h2>
   <p>
-    {BUSINESS.name}<br />
-    Inhaber: {BUSINESS.owner}<br />
-    {BUSINESS.street}<br />
+    {BUSINESS.name}
+    <br />
+    Inhaber: {BUSINESS.owner}
+    <br />
+    {BUSINESS.street}
+    <br />
     {BUSINESS.postalCode}
-    {BUSINESS.city}<br />
+    {BUSINESS.city}
+    <br />
     {BUSINESS.country}
   </p>
 
   <h2>Kontakt</h2>
   <p>
     E-Mail: <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>
-    {
-      BUSINESS.phone && (
-        <>
-          <br />
-          Telefon: <a href={phoneHref(BUSINESS.phone)}>{BUSINESS.phone}</a>
-        </>
-      )
-    }
+    {BUSINESS.phone && (
+      <>
+        <br />
+        Telefon: <a href={phoneHref(BUSINESS.phone)}>{BUSINESS.phone}</a>
+      </>
+    )}
   </p>
 
-  {
-    BUSINESS.vatId && (
-      <>
-        <h2>Umsatzsteuer-ID</h2>
-        <p>Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz: {BUSINESS.vatId}</p>
-      </>
-    )
-  }
+  {BUSINESS.vatId && (
+    <>
+      <h2>Umsatzsteuer-ID</h2>
+      <p>Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz: {BUSINESS.vatId}</p>
+    </>
+  )}
   {BUSINESS.smallBusinessNote && <p>{BUSINESS.smallBusinessNote}</p>}
 
   <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
   <p>
-    {BUSINESS.owner}<br />
-    {BUSINESS.street}<br />
+    {BUSINESS.owner}
+    <br />
+    {BUSINESS.street}
+    <br />
     {BUSINESS.postalCode}
     {BUSINESS.city}
   </p>

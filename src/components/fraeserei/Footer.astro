@@ -26,22 +26,20 @@ const year = new Date().getFullYear();
       </a>
       <p class="mt-2 max-w-sm text-sm">CNC-Frästeile in Holz – Gitarrenteile, Schablonen und Werkstattzubehör.</p>
     </div>
-    {
-      links.map(({ title, links }) => (
-        <div class="md:col-span-3">
-          <div class="font-semibold text-page-light mb-2">{title}</div>
-          <ul class="text-sm space-y-2">
-            {links.map(({ text, href }) => (
-              <li>
-                <a class="hover:text-accent hover:underline underline-offset-4" href={href}>
-                  {text}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))
-    }
+    {links.map(({ title, links }) => (
+      <div class="md:col-span-3">
+        <div class="font-semibold text-page-light mb-2">{title}</div>
+        <ul class="text-sm space-y-2">
+          {links.map(({ text, href }) => (
+            <li>
+              <a class="hover:text-accent hover:underline underline-offset-4" href={href}>
+                {text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
     <div class="md:col-span-3">
       <div class="font-semibold text-page-light mb-2">Kontakt</div>
       <ul class="text-sm space-y-2">
@@ -50,31 +48,27 @@ const year = new Date().getFullYear();
             {BUSINESS.email}
           </a>
         </li>
-        {
-          BUSINESS.phone && (
-            <li>
-              <a class="hover:text-accent hover:underline underline-offset-4" href={phoneHref(BUSINESS.phone)}>
-                {BUSINESS.phone}
-              </a>
-            </li>
-          )
-        }
+        {BUSINESS.phone && (
+          <li>
+            <a class="hover:text-accent hover:underline underline-offset-4" href={phoneHref(BUSINESS.phone)}>
+              {BUSINESS.phone}
+            </a>
+          </li>
+        )}
       </ul>
     </div>
   </div>
   <div class="border-t border-white/10">
-    <div
-      class="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between text-sm"
-    >
-      <span>© {year} {BUSINESS.name}</span>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between text-sm">
+      <span>
+        © {year} {BUSINESS.name}
+      </span>
       <nav aria-label="Rechtliches" class="flex gap-4">
-        {
-          secondaryLinks.map(({ text, href }) => (
-            <a class="hover:text-accent hover:underline underline-offset-4" href={href}>
-              {text}
-            </a>
-          ))
-        }
+        {secondaryLinks.map(({ text, href }) => (
+          <a class="hover:text-accent hover:underline underline-offset-4" href={href}>
+            {text}
+          </a>
+        ))}
       </nav>
     </div>
   </div>
