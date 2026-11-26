@@ -9,9 +9,9 @@ site:
 # Default SEO metadata
 metadata:
   title:
-    default: Die Fräserei – CNC-Fräsarbeiten in Holz
+    default: Die Fräserei – CNC-Frästeile in Holz
     template: '%s – Die Fräserei'
-  description: 'CNC-Fräsarbeiten in Holz: Gitarrenteile, Frässchablonen und Werkstattzubehör – präzise gefräst nach Maß.'
+  description: 'CNC-Frästeile in Holz: Gitarrenteile, Frässchablonen und Werkstattzubehör – präzise gefräst nach Maß.'
   robots:
     index: true
     follow: true
