@@ -39,7 +39,6 @@
     "@iconify-json/tabler": "^1.2.46",
     "@tailwindcss/typography": "^0.5.20",
     "@tailwindcss/vite": "^4.3.5",
-    "@types/js-yaml": "^4.0.9",
     "@types/lodash.merge": "^4.6.9",
     "@typescript-eslint/eslint-plugin": "^8.74.0",
     "@typescript-eslint/parser": "^8.74.0",

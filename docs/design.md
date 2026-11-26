@@ -54,20 +54,21 @@ A git upstream remote with merges was rejected because merges get noisy once the
 
 Keep changes to upstream files minimal and list every one here, so upstream fixes can be compared and applied.
 
-| File                                 | Change                                                                                          |
-| ------------------------------------ | ----------------------------------------------------------------------------------------------- |
-| `astro.config.ts`                    | Removed MDX/Partytown; added Barlow Condensed font; no remote image domains; single Shiki theme |
-| `src/config.yaml`                    | Site name/URL, German SEO metadata, `language: de`, blog disabled, `theme: light:only`          |
-| `src/components/CustomStyles.astro`  | Fräserei colour tokens + fonts; removed the `.dark` block                                       |
-| `src/components/Logo.astro`          | SVG mark + wordmark                                                                             |
-| `src/components/Favicons.astro`      | `mask-icon` colour                                                                              |
-| `src/layouts/Layout.astro`           | Removed `ApplyColorMode`, added `<Font>` for Barlow Condensed, removed Unsplash preconnect      |
-| `src/layouts/PageLayout.astro`       | No announcement bar, no RSS/theme toggle in header, uses our footer                             |
-| `src/assets/styles/tailwind.css`     | Imports `fraeserei.css`                                                                         |
-| `src/navigation.ts`                  | Our header/footer links                                                                         |
-| `src/pages/index.astro`, `404.astro` | Rewritten (German)                                                                              |
-| `package.json`                       | Name/version/description, `brand:assets` script, pruned dependencies                            |
-| `.gitignore`                         | npm-only note, `.idea/`                                                                         |
+| File                                     | Change                                                                                          |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `astro.config.ts`                        | Removed MDX/Partytown; added Barlow Condensed font; no remote image domains; single Shiki theme |
+| `src/config.yaml`                        | Site name/URL, German SEO metadata, `language: de`, blog disabled, `theme: light:only`          |
+| `src/components/CustomStyles.astro`      | Fräserei colour tokens + fonts; removed the `.dark` block                                       |
+| `src/components/Logo.astro`              | SVG mark + wordmark                                                                             |
+| `src/components/Favicons.astro`          | `mask-icon` colour                                                                              |
+| `src/layouts/Layout.astro`               | Removed `ApplyColorMode`, added `<Font>` for Barlow Condensed, removed Unsplash preconnect      |
+| `src/layouts/PageLayout.astro`           | No announcement bar, no RSS/theme toggle in header, uses our footer                             |
+| `src/assets/styles/tailwind.css`         | Imports `fraeserei.css`                                                                         |
+| `vendor/integration/utils/loadConfig.ts` | Named import `{ load }` from `js-yaml` (v5 has no default export)                               |
+| `src/navigation.ts`                      | Our header/footer links                                                                         |
+| `src/pages/index.astro`, `404.astro`     | Rewritten (German)                                                                              |
+| `package.json`                           | Name/version/description, `brand:assets` script, pruned dependencies                            |
+| `.gitignore`                             | npm-only note, `.idea/`                                                                         |
 
 Own files (no upstream counterpart): `src/components/fraeserei/*`, `src/assets/styles/fraeserei.css`,
 `src/data/business.ts`, `src/pages/impressum.astro`, `src/pages/datenschutz.astro`, `design/`, `scripts/`,
