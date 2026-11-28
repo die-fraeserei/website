@@ -53,5 +53,7 @@ Roughly in priority order.
 - [ ] `actionlint` in CI for workflow files
 - [ ] Pin GitHub Actions to commit SHAs (Dependabot keeps them updated)
 - [ ] Review inherited `overrides` in `package.json`; drop entries no longer needed
+- [ ] TypeScript 7: once `@astrojs/check` and `typescript-eslint` accept 7.x, remove the `ignore` rule in
+      `.github/dependabot.yml` and upgrade
 - [ ] Remove unused AstroWind widgets/components and the `flat-color-icons` icon set
 - [ ] Migrate to AstroWind v2 integration once released

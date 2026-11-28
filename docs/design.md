@@ -97,6 +97,8 @@ When AstroWind v2 (with an updatable integration) is released, evaluate migratin
 - **Dependabot** (`.github/dependabot.yml`): weekly (Monday 06:00 Europe/Berlin) for `npm` and `github-actions`.
   Minor/patch updates are grouped (`astro`, `tailwind`, `lint-and-types`, `other-minor-and-patch`); majors arrive as
   separate PRs. Every PR runs CI (`check` + `build`).
+- **TypeScript is held at 6.x:** TypeScript 7 (the native compiler) is not yet supported by `@astrojs/check`
+  (peer `^5 || ^6`) and `typescript-eslint` (peer `<6.1`). Dependabot ignores `typescript >= 7` until both support it.
 - **`overrides` in `package.json`** were inherited from upstream. They force patched versions of transitive
   dependencies (`yaml`, `sharp`/`svgo` under `astro-compress`, `nanoid` under `postcss`, `deepmerge-ts`, `fast-uri`)
   that the direct dependencies had not picked up yet. Review them occasionally (`npm ls <pkg>`) and drop an entry once
