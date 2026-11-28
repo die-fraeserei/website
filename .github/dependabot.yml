@@ -15,6 +15,11 @@ updates:
     commit-message:
       prefix: deps
       prefix-development: deps-dev
+    ignore:
+      # TypeScript 7 (native compiler) is not yet supported by @astrojs/check (peer ^5 || ^6)
+      # and typescript-eslint (peer <6.1). Remove once both accept 7.x (see docs/plan.md).
+      - dependency-name: 'typescript'
+        versions: ['>=7']
     groups:
       astro:
         patterns: ['astro', '@astrojs/*', 'astro-*', 'prettier-plugin-astro', 'eslint-plugin-astro']
