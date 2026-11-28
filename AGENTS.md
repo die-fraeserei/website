@@ -3,20 +3,21 @@
 Website of "Die Fräserei" (CNC milling: guitar parts, woodworking parts). Astro 7 + Tailwind CSS 4, based on a pinned
 copy of the AstroWind template, deployed to GitHub Pages.
 
-- **Site content: German** (formal "Sie"). **Code, comments, commits and docs: English.**
+- **Site content: German**, informal address with capitalised "Du/Dich/Dein/Euch" (not "Sie/Ihr"). **Code, comments, commits and docs: English.**
 - Read [`docs/design.md`](docs/design.md) (architecture, decisions, customisation map) and
   [`docs/plan.md`](docs/plan.md) (backlog) before larger changes. Update both when decisions or scope change.
 
 ## Commands
 
-| Command                | Purpose                                        |
-| ---------------------- | ---------------------------------------------- |
-| `npm ci`               | Install dependencies exactly as locked         |
-| `npm run dev`          | Dev server at localhost:4321                   |
-| `npm run check`        | astro check + ESLint + Prettier (CI runs this) |
-| `npm run fix`          | Auto-fix ESLint + Prettier                     |
-| `npm run build`        | Production build to `dist/` (CI runs this)     |
-| `npm run brand:assets` | Regenerate favicons / OG image / sticker copy  |
+| Command                  | Purpose                                        |
+| ------------------------ | ---------------------------------------------- |
+| `npm ci`                 | Install dependencies exactly as locked         |
+| `npm run dev`            | Dev server at localhost:4321                   |
+| `npm run check`          | astro check + ESLint + Prettier (CI runs this) |
+| `npm run fix`            | Auto-fix ESLint + Prettier                     |
+| `npm run build`          | Production build to `dist/` (CI runs this)     |
+| `npm run brand:assets`   | Regenerate favicons / OG image / sticker copy  |
+| `npm run photos:prepare` | Resize/rotate project photos, strip EXIF/GPS   |
 
 Always run `npm run check && npm run build` after changes.
 
@@ -30,6 +31,8 @@ Always run `npm run check && npm run build` after changes.
 - **Upstream code:** prefer adding our own components in `src/components/fraeserei/` over editing AstroWind files.
   If an upstream file must change, record it in the customisation map in `docs/design.md`.
 - **Business data** (address, email, phone, legal) only in `src/data/business.ts`.
+- **Projects** live in `src/data/projekte/<YYYY-MM-slug>/` (`index.md` + JPEGs; schema in `src/content.config.ts`,
+  queries in `src/utils/projects.ts`). Run `npm run photos:prepare` before committing photos. See README.
 - Any feature that processes personal data (forms, analytics, maps) requires updating `src/pages/datenschutz.astro`.
 
 ## AstroWind reference

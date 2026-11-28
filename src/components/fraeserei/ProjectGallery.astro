@@ -1,0 +1,159 @@
+---
+// Project photo gallery: thumbnail grid + lightbox (native <dialog>, no library).
+// Adapted from AstroWind's widgets/Gallery.astro, but with a dedicated large rendition per photo
+// (the upstream viewer reuses the 640 px thumbnail), caption + counter and a thumbnail-free light UI.
+// Without JavaScript every thumbnail is a plain link to the large image.
+import { getImage } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import Image from '~/components/common/Image.astro';
+import type { ProjectImage } from '~/utils/projects';
+
+export interface Props {
+  images: ProjectImage[];
+  title?: string;
+}
+
+const { images = [], title = 'Galerie' } = Astro.props;
+
+const LARGE_WIDTH = 2000;
+const items = await Promise.all(
+  images.map(async (image) => {
+    const large = await getImage({
+      src: image.src,
+      width: Math.min(LARGE_WIDTH, image.src.width),
+      format: 'webp',
+      quality: 82,
+    });
+    return { ...image, large: large.src };
+  })
+);
+---
+
+{items.length > 0 && (
+  <section class="mt-16" aria-labelledby="galerie">
+    <h2 id="galerie" class="font-heading font-extrabold uppercase text-3xl text-heading mb-6">
+      {title} <span class="text-muted text-xl align-middle">({items.length})</span>
+    </h2>
+    <fr-gallery>
+      <ul class="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 list-none p-0">
+        {items.map(({ src, alt, caption, large }, index) => (
+          <li>
+            <a
+              href={large}
+              data-fr-gallery-item={index}
+              data-caption={caption ?? ''}
+              class="group block overflow-hidden rounded-lg bg-surface focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              aria-label={`Foto vergrößern: ${alt}`}
+            >
+              <Image
+                src={src}
+                alt={alt}
+                class="w-full aspect-[4/3] object-cover transition duration-300 group-hover:scale-[1.04]"
+                width={480}
+                height={360}
+                widths={[320, 480]}
+                sizes="(max-width: 767px) 50vw, (max-width: 1023px) 33vw, 25vw"
+                layout="cover"
+                format="webp"
+              />
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <dialog
+        class="m-auto h-full max-h-none w-full max-w-none bg-[#0e0a06]/95 p-0 backdrop:bg-black/40 backdrop:backdrop-blur-sm open:flex open:flex-col open:items-center open:justify-center"
+        aria-label="Bildbetrachter"
+      >
+        <form method="dialog" class="absolute right-3 top-3 z-10">
+          <button
+            type="submit"
+            class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/15 text-white hover:bg-white/30"
+            aria-label="Schließen"
+          >
+            <Icon name="tabler:x" class="h-6 w-6" />
+          </button>
+        </form>
+        <button
+          type="button"
+          data-fr-prev
+          class="absolute left-2 md:left-4 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-white hover:bg-white/30"
+          aria-label="Vorheriges Foto"
+        >
+          <Icon name="tabler:chevron-left" class="h-6 w-6" />
+        </button>
+        <button
+          type="button"
+          data-fr-next
+          class="absolute right-2 md:right-4 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-white hover:bg-white/30"
+          aria-label="Nächstes Foto"
+        >
+          <Icon name="tabler:chevron-right" class="h-6 w-6" />
+        </button>
+        <img data-fr-img class="max-h-[84vh] max-w-[92vw] w-auto rounded-md object-contain shadow-2xl" alt="" />
+        <p class="mt-3 px-4 text-center text-sm text-white/85">
+          <span data-fr-caption></span>
+          <span data-fr-counter class="ml-2 text-white/55"></span>
+        </p>
+      </dialog>
+    </fr-gallery>
+  </section>
+)}
+
+<script>
+  class FrGallery extends HTMLElement {
+    connectedCallback() {
+      const dialog = this.querySelector<HTMLDialogElement>('dialog');
+      if (!dialog) return;
+      const links = [...this.querySelectorAll<HTMLAnchorElement>('[data-fr-gallery-item]')];
+      const img = dialog.querySelector<HTMLImageElement>('[data-fr-img]')!;
+      const caption = dialog.querySelector<HTMLElement>('[data-fr-caption]')!;
+      const counter = dialog.querySelector<HTMLElement>('[data-fr-counter]')!;
+      let current = 0;
+
+      const preload = (index: number) => {
+        const link = links[(index + links.length) % links.length];
+        if (link) new Image().src = link.href;
+      };
+      const show = (index: number) => {
+        current = (index + links.length) % links.length;
+        const link = links[current];
+        img.src = link.href;
+        img.alt = link.querySelector('img')?.alt ?? '';
+        caption.textContent = link.dataset.caption ?? '';
+        counter.textContent = `${current + 1} / ${links.length}`;
+        preload(current + 1);
+        preload(current - 1);
+      };
+
+      links.forEach((link, index) =>
+        link.addEventListener('click', (event) => {
+          event.preventDefault();
+          show(index);
+          dialog.showModal();
+        })
+      );
+      dialog.querySelector('[data-fr-prev]')?.addEventListener('click', () => show(current - 1));
+      dialog.querySelector('[data-fr-next]')?.addEventListener('click', () => show(current + 1));
+      dialog.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft') show(current - 1);
+        if (event.key === 'ArrowRight') show(current + 1);
+      });
+      // Clicking the dark area (not the photo or a button) closes the viewer.
+      dialog.addEventListener('click', (event) => {
+        if (event.target === dialog) dialog.close();
+      });
+
+      // Swipe left/right on touch devices.
+      let startX: number | null = null;
+      dialog.addEventListener('touchstart', (event) => (startX = event.touches[0].clientX), { passive: true });
+      dialog.addEventListener('touchend', (event) => {
+        if (startX === null) return;
+        const delta = event.changedTouches[0].clientX - startX;
+        if (Math.abs(delta) > 50) show(current + (delta < 0 ? 1 : -1));
+        startX = null;
+      });
+    }
+  }
+  if (!customElements.get('fr-gallery')) customElements.define('fr-gallery', FrGallery);
+</script>

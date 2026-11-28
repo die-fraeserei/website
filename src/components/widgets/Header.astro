@@ -49,7 +49,12 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 // Compare paths without trailing slashes so the active link is detected
 // regardless of the `trailingSlash` setting (`getPermalink()` emits `/contact/`
 // when it is enabled, while `currentPath` above never has one, see #557).
-const isActive = (href?: string) => typeof href === 'string' && `/${trimSlash(href)}` === currentPath;
+// Fräserei: a section link is also active on its sub-pages (e.g. "Projekte" on /projekte/<slug>).
+const isActive = (href?: string) => {
+  if (typeof href !== 'string') return false;
+  const target = `/${trimSlash(href)}`;
+  return target === currentPath || (target !== '/' && currentPath.startsWith(`${target}/`));
+};
 
 // The header is kept across view transitions (transition:persist) so its state
 // survives client-side navigations. Astro matches persisted elements by name,
@@ -287,7 +292,10 @@ const persistKey = `header-${Array.from(
         // would light up everywhere; only path links can be "the current page".
         const isPathLink =
           url.origin === window.location.origin && !url.hash && !a.getAttribute('href')?.startsWith('#');
-        a.classList.toggle('aw-link-active', isPathLink && norm(url.pathname) === current);
+        // Fräserei: also active on sub-pages (same rule as `isActive` in the frontmatter).
+        const target = norm(url.pathname);
+        const matches = target === current || (target !== '/' && current.startsWith(`${target}/`));
+        a.classList.toggle('aw-link-active', isPathLink && matches);
       });
     }
   }

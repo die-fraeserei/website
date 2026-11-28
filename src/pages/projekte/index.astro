@@ -1,0 +1,39 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Headline from '~/components/ui/Headline.astro';
+import ProjectListItem from '~/components/fraeserei/ProjectListItem.astro';
+import { getProjects } from '~/utils/projects';
+import { getPermalink } from '~/utils/permalinks';
+
+const projects = await getProjects();
+
+const metadata = {
+  title: 'Projekte',
+  description: 'Aktuelle Arbeiten der Fräserei: Gitarrenteile, Frässchablonen und Werkstattzubehör aus Holz.',
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-16">
+    <Headline
+      tagline="Projekte"
+      title="Aus der Werkstatt"
+      subtitle="Eine Auswahl aktueller Arbeiten – vom Gitarrenbody bis zur Frässchablone. Jedes Projekt mit Fotos und ein paar Worten zur Entstehung."
+      classes={{ title: 'text-4xl md:text-5xl' }}
+    />
+    {projects.length > 0 ? (
+      <div>
+        {projects.map((project, index) => (
+          <ProjectListItem project={project} reversed={index % 2 === 1} eager={index === 0} />
+        ))}
+      </div>
+    ) : (
+      <p class="text-center text-lg text-muted">
+        Bald gibt es hier mehr zu sehen. Bis dahin:{' '}
+        <a class="text-primary underline underline-offset-4" href={getPermalink('/#kontakt')}>
+          erzähl mir von Deinem Projekt
+        </a>
+      </p>
+    )}
+  </section>
+</Layout>

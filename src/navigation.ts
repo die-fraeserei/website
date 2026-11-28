@@ -3,6 +3,7 @@ import { getPermalink } from './utils/permalinks';
 export const headerData = {
   links: [
     { text: 'Leistungen', href: getPermalink('/#leistungen') },
+    { text: 'Projekte', href: getPermalink('/projekte') },
     { text: 'Über mich', href: getPermalink('/#ueber-mich') },
     { text: 'Kontakt', href: getPermalink('/#kontakt') },
   ],
@@ -15,6 +16,7 @@ export const footerData = {
       title: 'Die Fräserei',
       links: [
         { text: 'Leistungen', href: getPermalink('/#leistungen') },
+        { text: 'Projekte', href: getPermalink('/projekte') },
         { text: 'Über mich', href: getPermalink('/#ueber-mich') },
         { text: 'Kontakt', href: getPermalink('/#kontakt') },
       ],

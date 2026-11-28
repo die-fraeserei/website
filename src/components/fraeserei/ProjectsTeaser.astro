@@ -1,0 +1,36 @@
+---
+// "Neueste Projekte" section for the home page. Renders nothing if there are no published projects.
+import Headline from '~/components/ui/Headline.astro';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import ProjectCard from '~/components/fraeserei/ProjectCard.astro';
+import { getProjects } from '~/utils/projects';
+import { getPermalink } from '~/utils/permalinks';
+
+export interface Props {
+  id?: string;
+  count?: number;
+}
+
+const { id = 'projekte', count = 3 } = Astro.props;
+const projects = (await getProjects()).slice(0, count);
+---
+
+{projects.length > 0 && (
+  <WidgetWrapper id={id} containerClass="max-w-6xl">
+    <Headline
+      tagline="Projekte"
+      title="Neueste Projekte"
+      subtitle="Ein Blick in die Werkstatt: aktuelle Arbeiten für Kundinnen und Kunden."
+    />
+    <div class="flex flex-wrap justify-center gap-6 [&>*]:w-full sm:[&>*]:w-[calc(50%-0.75rem)] lg:[&>*]:w-[calc(33.333%-1rem)]">
+      {projects.map((project) => (
+        <ProjectCard project={project} />
+      ))}
+    </div>
+    <div class="mt-10 text-center">
+      <a class="btn-secondary" href={getPermalink('/projekte')}>
+        Alle Projekte ansehen →
+      </a>
+    </div>
+  </WidgetWrapper>
+)}

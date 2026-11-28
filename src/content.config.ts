@@ -68,6 +68,42 @@ const postCollection = defineCollection({
   }),
 });
 
+// Projekte: one folder per project in src/data/projekte/<YYYY-MM[-DD]-slug>/ with an index.md
+// and JPEG photos. The URL slug is the folder name without the date prefix. See README "Adding a project".
+export const PROJECT_CATEGORIES = ['Gitarrenteile', 'Schablonen', 'Werkstattzubehör', 'Sonderanfertigung'] as const;
+
+const projectCollection = defineCollection({
+  loader: glob({
+    pattern: '*/index.md',
+    base: 'src/data/projekte',
+    generateId: ({ entry }) => entry.split('/')[0].replace(/^\d{4}-\d{2}(-\d{2})?-/, ''),
+  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      date: z.coerce.date(),
+      category: z.enum(PROJECT_CATEGORIES),
+      tags: z.array(z.string()).optional(),
+      teaser: z.string(),
+      cover: image(),
+      coverAlt: z.string(),
+      /** Ordered key → value pairs shown in the fact box (e.g. Kunde, Material, Dauer). */
+      facts: z.record(z.string(), z.string()).optional(),
+      /** File name → caption for gallery photos (also used as alt text). */
+      captions: z.record(z.string(), z.string()).optional(),
+      testimonial: z
+        .object({
+          quote: z.string(),
+          name: z.string(),
+          role: z.string().optional(),
+        })
+        .optional(),
+      draft: z.boolean().default(false),
+      metadata: metadataDefinition(),
+    }),
+});
+
 export const collections = {
   post: postCollection,
+  projekte: projectCollection,
 };
