@@ -3,7 +3,7 @@
 Website of "Die Fräserei" (CNC milling: guitar parts, woodworking parts). Astro 7 + Tailwind CSS 4, based on a pinned
 copy of the AstroWind template, deployed to GitHub Pages.
 
-- **Site content: German** (formal "Sie"). **Code, comments, commits and docs: English.**
+- **Site content: German**, informal address with capitalised "Du/Dich/Dein/Euch" (not "Sie/Ihr"). **Code, comments, commits and docs: English.**
 - Read [`docs/design.md`](docs/design.md) (architecture, decisions, customisation map) and
   [`docs/plan.md`](docs/plan.md) (backlog) before larger changes. Update both when decisions or scope change.
 

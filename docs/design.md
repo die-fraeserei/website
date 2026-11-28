@@ -160,7 +160,7 @@ One-page home with anchors plus legal pages:
 | `/datenschutz` | Privacy policy (GitHub Pages hosting, email contact, no cookies/analytics)       |
 | `/404`         | German not-found page (GitHub Pages serves `404.html` automatically)             |
 
-- Formal address ("Sie") throughout.
+- Informal address: "Du/Dich/Dein/Euch" (capitalised). New content must use it; older pages that still use "Sie" are updated by the owner.
 - The blog stays technically available (routes in `src/pages/[...blog]/`, disabled in `config.yaml`). The content
   loader warns that `src/data/post` is empty — expected while the blog is off.
 
