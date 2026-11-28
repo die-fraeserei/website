@@ -17,6 +17,15 @@ Architecture and decisions: see [`design.md`](design.md).
 - [ ] First push to `main`, enforce HTTPS
 - [ ] Check the live site (HTTPS, `www` redirect, social preview, favicon)
 
+## Iteration 2 — Projekte
+
+- [x] Content collection `projekte` (folder per project, all JPEGs → gallery), utilities
+- [x] Overview `/projekte` (zigzag), project page (hero + facts, gallery with viewer, customer voice, newer/older)
+- [x] "Neueste Projekte" on the home page, "Projekte" in header/footer (active on sub-pages)
+- [x] `npm run photos:prepare` (resize, rotate, strip EXIF/GPS), sample draft project, docs
+- [ ] **Owner:** first real project (replace or delete `src/data/projekte/2026-11-beispielprojekt/`)
+- [ ] **Owner:** customer consent for names/quotes/photos
+
 ## Backlog
 
 Roughly in priority order.
@@ -24,13 +33,15 @@ Roughly in priority order.
 ### Content
 
 - [ ] Real photos: workshop, machine, finished parts (hero/about), with alt texts
-- [ ] Gallery / "Referenzen" with project photos
 - [ ] Detail pages per service (Gitarrenteile, Schablonen, Werkstattzubehör, Sonderanfertigungen)
 - [ ] FAQ (file formats, materials, lead times, pricing basics, shipping) — AstroWind `FAQs` widget adds FAQPage structured data
 - [ ] Price information / "So läuft ein Auftrag ab" (process steps — `Steps` widget)
 
 ### Features
 
+- [ ] Projects: inline story photos open the gallery viewer too
+- [ ] Projects: filter overview by category; pagination once there are many projects
+- [ ] Projects: structured data (`CreativeWork`) and per-project OG description tuning
 - [ ] Contact form (e.g. Web3Forms/Formspree or own endpoint) with spam protection; update Datenschutz
 - [ ] Shop or product catalogue (e.g. standard templates)
 - [ ] Blog / "Werkstatt-Notizen" (re-enable AstroWind blog, add MDX back if needed)

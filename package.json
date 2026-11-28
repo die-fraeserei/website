@@ -20,7 +20,8 @@
     "fix": "npm run fix:eslint && npm run fix:prettier",
     "fix:eslint": "eslint --fix .",
     "fix:prettier": "prettier -w .",
-    "brand:assets": "node scripts/generate-brand-assets.mjs"
+    "brand:assets": "node scripts/generate-brand-assets.mjs",
+    "photos:prepare": "node scripts/prepare-photos.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.6",

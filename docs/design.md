@@ -64,6 +64,8 @@ Keep changes to upstream files minimal and list every one here, so upstream fixe
 | `src/layouts/Layout.astro`               | Removed `ApplyColorMode`, added `<Font>` for Barlow Condensed, removed Unsplash preconnect      |
 | `src/layouts/PageLayout.astro`           | No announcement bar, no RSS/theme toggle in header, uses our footer                             |
 | `src/assets/styles/tailwind.css`         | Imports `fraeserei.css`                                                                         |
+| `src/content.config.ts`                  | Added the `projekte` collection                                                                 |
+| `src/components/widgets/Header.astro`    | `isActive` (server + client script) also matches sub-pages, e.g. `/projekte/<slug>`             |
 | `vendor/integration/utils/loadConfig.ts` | Named import `{ load }` from `js-yaml` (v5 has no default export)                               |
 | `src/navigation.ts`                      | Our header/footer links                                                                         |
 | `src/pages/index.astro`, `404.astro`     | Rewritten (German)                                                                              |
@@ -162,6 +164,32 @@ One-page home with anchors plus legal pages:
 - The blog stays technically available (routes in `src/pages/[...blog]/`, disabled in `config.yaml`). The content
   loader warns that `src/data/post` is empty — expected while the blog is off.
 
+## Projects ("Projekte")
+
+Portfolio section: overview at `/projekte`, one page per project at `/projekte/<slug>`, latest three on the home page.
+
+- **Content model:** Astro content collection `projekte` (`src/content.config.ts`), `glob` loader over
+  `src/data/projekte/*/index.md`. The entry id (= URL slug) is the folder name without its `YYYY-MM[-DD]-` prefix.
+  `cover` uses the `image()` schema helper, so a missing cover fails the build. `draft: true` entries are filtered
+  out in production (`getProjects()` in `src/utils/projects.ts`) but shown in `npm run dev`.
+- **Gallery images:** _all_ JPEGs in the project folder, collected at build time with `import.meta.glob`
+  (`getProjectImages()`); cover first, then by file name (numeric-aware). Captions are optional
+  (`captions` map in the front matter) and double as alt text; otherwise a generic alt text is generated.
+  Chosen over an explicit list in the front matter because adding a photo should be "drop the file in the folder".
+- **Image pipeline:** originals are prepared by `npm run photos:prepare` (≤ 2400 px long edge, EXIF rotation applied,
+  all metadata incl. GPS removed, mozjpeg q85; idempotent) to keep the repo small and avoid leaking locations.
+  At build time Astro/Sharp generates WebP thumbnails (320/480 px), list/hero sizes (480–2000 px) and one ≈ 2000 px
+  rendition per photo for the viewer (`getImage()` in `ProjectGallery.astro`).
+- **Layouts** (chosen from mock-ups): overview = zigzag list (`ProjectListItem.astro`, cover 16:9 alternating sides);
+  project page = hero + facts (`src/pages/projekte/[slug].astro`: 21:9 cover, Markdown story with inline photos,
+  sticky `ProjectFacts.astro`, `ProjectGallery.astro`, optional `CustomerVoice.astro`, newer/older links);
+  home teaser = `ProjectsTeaser.astro` (cards, hidden when there are no published projects).
+- **Gallery viewer:** our own `ProjectGallery.astro`, adapted from AstroWind's `widgets/Gallery.astro` (native
+  `<dialog>`, no library): ← → keys, swipe, Esc / click outside to close, caption + counter, neighbours preloaded.
+  Upstream's viewer reuses the 640 px thumbnail, hence the separate large rendition. Without JS, thumbnails are plain
+  links to the large image.
+- **Social preview:** the cover is passed to AstroWind's `adaptOpenGraphImages` (renders a 1200 × 626 JPEG).
+
 ## Legal / privacy
 
 - **Impressum** and **Datenschutzerklärung** are mandatory for a German business site; both exist from v1.
@@ -170,6 +198,8 @@ One-page home with anchors plus legal pages:
 - **Contact** via `mailto:`/`tel:` only. A contact form needs a third-party form service or backend (GitHub Pages is
   static) and an update of the privacy policy (backlog).
 - **Hosting:** GitHub Pages processes visitors' IP addresses (server logs); covered in the privacy policy.
+- **Projects:** names, quotes (`testimonial`) and photos showing customers' instruments are published only with the
+  customer's consent. `photos:prepare` strips EXIF/GPS metadata from photos before they are committed.
 
 ## Hosting & domain
 

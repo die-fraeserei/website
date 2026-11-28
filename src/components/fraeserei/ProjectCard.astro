@@ -1,0 +1,44 @@
+---
+// Compact project card (home page teaser).
+import Image from '~/components/common/Image.astro';
+import { formatProjectDate, type Project } from '~/utils/projects';
+import { getPermalink } from '~/utils/permalinks';
+
+export interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const { title, date, category, teaser, cover, coverAlt } = project.data;
+const href = getPermalink(`/projekte/${project.id}`);
+---
+
+<article class="group flex flex-col overflow-hidden rounded-xl border border-line bg-card transition hover:shadow-lg hover:border-primary/40">
+  <a href={href} class="block overflow-hidden" tabindex="-1" aria-hidden="true">
+    <Image
+      src={cover}
+      alt={coverAlt}
+      class="w-full aspect-[4/3] object-cover transition duration-300 group-hover:scale-[1.03]"
+      width={640}
+      height={480}
+      widths={[400, 640]}
+      sizes="(max-width: 767px) 100vw, 33vw"
+      layout="cover"
+      format="webp"
+    />
+  </a>
+  <div class="flex flex-1 flex-col p-5">
+    <p class="text-xs text-muted">
+      <time datetime={date.toISOString()}>{formatProjectDate(date)}</time> · {category}
+    </p>
+    <h3 class="mt-1 font-heading font-extrabold uppercase text-2xl leading-tight text-heading">
+      <a href={href} class="hover:text-primary">
+        {title}
+      </a>
+    </h3>
+    <p class="mt-2 text-sm text-muted flex-1">{teaser}</p>
+    <a href={href} class="mt-3 text-sm font-semibold text-primary hover:underline underline-offset-4">
+      Projekt ansehen →
+    </a>
+  </div>
+</article>

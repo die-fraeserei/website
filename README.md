@@ -23,14 +23,15 @@ npm run dev       # dev server at http://localhost:4321
 
 ## Scripts
 
-| Command                | What it does                                                          |
-| ---------------------- | --------------------------------------------------------------------- |
-| `npm run dev`          | Start the dev server with hot reload                                  |
-| `npm run build`        | Production build into `dist/`                                         |
-| `npm run preview`      | Serve the production build locally                                    |
-| `npm run check`        | `astro check` (types) + ESLint + Prettier — the same checks CI runs   |
-| `npm run fix`          | Auto-fix ESLint and Prettier issues                                   |
-| `npm run brand:assets` | Regenerate favicons, OG image and sticker copy from `design/`/`docs/` |
+| Command                  | What it does                                                                                    |
+| ------------------------ | ----------------------------------------------------------------------------------------------- |
+| `npm run dev`            | Start the dev server with hot reload                                                            |
+| `npm run build`          | Production build into `dist/`                                                                   |
+| `npm run preview`        | Serve the production build locally                                                              |
+| `npm run check`          | `astro check` (types) + ESLint + Prettier — the same checks CI runs                             |
+| `npm run fix`            | Auto-fix ESLint and Prettier issues                                                             |
+| `npm run brand:assets`   | Regenerate favicons, OG image and sticker copy from `design/`/`docs/`                           |
+| `npm run photos:prepare` | Resize project photos to ≤ 2400 px, fix rotation, strip EXIF/GPS (run before committing photos) |
 
 ## Project structure
 
@@ -42,16 +43,20 @@ npm run dev       # dev server at http://localhost:4321
 design/logo-mark.svg        # source of the simplified logo mark
 docs/                       # design.md, plan.md, sticker.png (original artwork)
 public/CNAME                # custom domain for GitHub Pages
-scripts/                    # generate-brand-assets.mjs
+scripts/                    # generate-brand-assets.mjs, prepare-photos.mjs
 src/
   config.yaml               # site settings (name, URL, SEO, language, blog off, light-only)
   navigation.ts             # header + footer links
   data/business.ts          # business/contact/legal data (single source of truth)
+  data/projekte/<folder>/   # one folder per project: index.md + JPEG photos
   components/CustomStyles.astro      # colour + font tokens
   components/Logo.astro              # header logo (SVG mark + wordmark)
-  components/fraeserei/              # our own components (footer, about, contact)
+  components/fraeserei/              # our own components (footer, about, contact, projects, gallery)
+  utils/projects.ts                  # project queries + gallery image lookup
   assets/styles/fraeserei.css        # our Tailwind additions
   pages/index.astro                  # home page (hero, services, about, contact)
+  pages/projekte/index.astro         # project overview (/projekte)
+  pages/projekte/[slug].astro        # project pages (/projekte/<slug>)
   pages/impressum.astro, datenschutz.astro, 404.astro
 vendor/integration/         # AstroWind's config loader (upstream code)
 ```
@@ -67,6 +72,47 @@ Everything else under `src/` is AstroWind template code; we change it as little 
 - **Colours / fonts:** `src/components/CustomStyles.astro` and `astro.config.ts` (`fonts`).
 - **Logo:** edit `design/logo-mark.svg`, update the inline copy in `src/components/Logo.astro`, then run
   `npm run brand:assets`.
+
+## Adding a project
+
+Projects are shown at [`/projekte`](https://die-fraeserei.de/projekte), each with its own page, and the newest three
+appear on the home page. Each project is **one folder** in `src/data/projekte/`:
+
+```
+src/data/projekte/
+  2026-10-tele-body-esche/     # YYYY-MM[-DD]-<slug>  →  URL /projekte/tele-body-esche
+    index.md                   # front matter + story (Markdown)
+    cover.jpg                  # title photo
+    01-rohling.jpg             # every JPEG in the folder appears in the gallery,
+    02-fraesen.jpg             # cover first, then sorted by file name
+```
+
+1. Copy the example folder `src/data/projekte/2026-11-beispielprojekt/` and rename it (date + short slug, lowercase,
+   hyphens, no umlauts: `ae`, `oe`, `ue`, `ss`).
+2. Replace the JPEGs with your photos (`.jpg`/`.jpeg`). Name them `01-…`, `02-…` to control the gallery order.
+3. Run **`npm run photos:prepare`**: it shrinks big phone photos to ≤ 2400 px, fixes the rotation and removes
+   EXIF data (incl. GPS location). Astro then creates the small web versions (WebP) and a ≈ 2000 px version for the
+   gallery viewer at build time.
+4. Edit `index.md` (see below), set `draft: false`, check with `npm run dev` → http://localhost:4321/projekte.
+5. Commit and push (or open a PR). The site is redeployed automatically.
+
+Front matter reference:
+
+| Field         | Required | Description                                                                            |
+| ------------- | -------- | -------------------------------------------------------------------------------------- |
+| `title`       | yes      | Project title                                                                          |
+| `date`        | yes      | `YYYY-MM-DD`; newest first in all lists                                                |
+| `category`    | yes      | `Gitarrenteile`, `Schablonen`, `Werkstattzubehör` or `Sonderanfertigung`               |
+| `tags`        | no       | List of chips, e.g. `[Esche, Binding]`                                                 |
+| `teaser`      | yes      | 1–2 sentences for the overview, home page and as page description                      |
+| `cover`       | yes      | Title photo, e.g. `./cover.jpg` (the build fails if the file is missing)               |
+| `coverAlt`    | yes      | Description of the title photo (accessibility)                                         |
+| `facts`       | no       | Key/value pairs for the fact box, in the given order (`Kunde`, `Material`, `Dauer`, …) |
+| `captions`    | no       | File name → caption in the gallery (also used as alt text)                             |
+| `testimonial` | no       | `quote`, `name`, optional `role` → "Stimme des Kunden" block (only with consent!)      |
+| `draft`       | no       | `true` hides the project on the live site (still visible in `npm run dev`)             |
+
+The Markdown body is the project story. Photos can be placed in the text with `![Beschreibung](./01-rohling.jpg)`.
 
 ## Deployment
 

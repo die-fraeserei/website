@@ -1,0 +1,114 @@
+---
+// Project page ("hero + facts" layout): cover, story with inline photos, sticky fact box,
+// gallery with lightbox, optional customer voice, newer/older navigation.
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import Layout from '~/layouts/PageLayout.astro';
+import Image from '~/components/common/Image.astro';
+import ProjectFacts from '~/components/fraeserei/ProjectFacts.astro';
+import ProjectGallery from '~/components/fraeserei/ProjectGallery.astro';
+import CustomerVoice from '~/components/fraeserei/CustomerVoice.astro';
+import { formatProjectDate, getAdjacentProjects, getProjectImages, getProjects, type Project } from '~/utils/projects';
+import { getPermalink } from '~/utils/permalinks';
+
+export const getStaticPaths = (async () => {
+  const projects = await getProjects();
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project, ...getAdjacentProjects(projects, project.id) },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  project: Project;
+  newer?: Project;
+  older?: Project;
+}
+
+const { project, newer, older } = Astro.props;
+const { title, date, category, tags, teaser, cover, coverAlt, facts, testimonial } = project.data;
+const { Content } = await render(project);
+const images = getProjectImages(project);
+
+const metadata = {
+  title,
+  description: teaser,
+  robots: project.data.draft ? { index: false, follow: false } : undefined,
+  // adaptOpenGraphImages (src/utils/images.ts) accepts ImageMetadata via findImage() and renders a
+  // 1200×626 JPEG; the MetaDataImage type only declares `url: string`, hence the cast.
+  openGraph: { images: [{ url: cover as unknown as string }] },
+  ...project.data.metadata,
+};
+---
+
+<Layout metadata={metadata}>
+  <div class="relative">
+    <Image
+      src={cover}
+      alt={coverAlt}
+      class="w-full aspect-[16/9] md:aspect-[21/9] object-cover"
+      width={2000}
+      height={857}
+      widths={[768, 1280, 2000]}
+      sizes="100vw"
+      layout="cover"
+      format="webp"
+      loading="eager"
+      fetchpriority="high"
+    />
+  </div>
+
+  <article class="max-w-6xl mx-auto px-4 md:px-6 py-10 md:py-14">
+    <nav aria-label="Brotkrumen" class="text-sm text-muted">
+      <a class="text-primary hover:underline underline-offset-4" href={getPermalink('/projekte')}>
+        Projekte
+      </a>
+      <span aria-hidden="true"> › </span>
+      <span>{title}</span>
+    </nav>
+    <p class="mt-4 text-sm font-bold uppercase tracking-widest text-secondary">
+      {category} · <time datetime={date.toISOString()}>{formatProjectDate(date)}</time>
+    </p>
+    <h1 class="mt-1 font-heading font-extrabold uppercase text-4xl md:text-6xl leading-none text-heading">{title}</h1>
+    {project.data.draft && <p class="mt-2 text-sm font-semibold text-red-700">Entwurf – nur lokal sichtbar</p>}
+
+    <div class="mt-8 grid gap-10 lg:grid-cols-12">
+      <div class="lg:col-span-8 prose prose-lg max-w-none prose-headings:font-heading prose-headings:uppercase prose-headings:text-heading prose-p:text-default prose-li:text-default prose-strong:text-heading prose-li:marker:text-secondary prose-headings:leading-tight prose-a:text-primary prose-img:rounded-xl prose-img:shadow-md prose-img:w-full">
+        <p class="lead text-xl text-muted">{teaser}</p>
+        <Content />
+      </div>
+      <div class="lg:col-span-4">
+        <ProjectFacts facts={facts} category={category} tags={tags} />
+      </div>
+    </div>
+
+    <ProjectGallery images={images} />
+
+    {testimonial && <CustomerVoice {...testimonial} />}
+
+    {(newer || older) && (
+      <nav aria-label="Weitere Projekte" class="mt-16 grid gap-4 sm:grid-cols-2">
+        {older ? (
+          <a
+            href={getPermalink(`/projekte/${older.id}`)}
+            class="rounded-xl border border-line bg-card p-4 hover:border-primary/50"
+          >
+            <span class="block text-xs text-muted">← Älteres Projekt</span>
+            <span class="font-semibold">{older.data.title}</span>
+          </a>
+        ) : (
+          <span />
+        )}
+        {newer && (
+          <a
+            href={getPermalink(`/projekte/${newer.id}`)}
+            class="rounded-xl border border-line bg-card p-4 text-right hover:border-primary/50"
+          >
+            <span class="block text-xs text-muted">Neueres Projekt →</span>
+            <span class="font-semibold">{newer.data.title}</span>
+          </a>
+        )}
+      </nav>
+    )}
+  </article>
+</Layout>

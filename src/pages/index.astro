@@ -5,6 +5,7 @@ import Hero from '~/components/widgets/Hero.astro';
 import Features from '~/components/widgets/Features.astro';
 import StructuredData from '~/components/common/StructuredData.astro';
 import AboutSection from '~/components/fraeserei/AboutSection.astro';
+import ProjectsTeaser from '~/components/fraeserei/ProjectsTeaser.astro';
 import ContactSection from '~/components/fraeserei/ContactSection.astro';
 import { SITE, METADATA, I18N } from 'astrowind:config';
 import { BUSINESS } from '~/data/business';
@@ -98,6 +99,8 @@ const structuredData = [
       },
     ]}
   />
+
+  <ProjectsTeaser />
 
   <AboutSection />
 

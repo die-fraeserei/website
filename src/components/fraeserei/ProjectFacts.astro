@@ -1,0 +1,34 @@
+---
+// Fact box on a project page (sticky on desktop) with a call to action.
+import { getPermalink } from '~/utils/permalinks';
+
+export interface Props {
+  facts?: Record<string, string>;
+  category: string;
+  tags?: string[];
+}
+
+const { facts = {}, category, tags = [] } = Astro.props;
+---
+
+<aside class="lg:sticky lg:top-24 space-y-4">
+  <dl class="rounded-xl border border-line bg-card p-5 text-sm">
+    {Object.entries(facts).map(([label, value]) => (
+      <div class="pb-3 mb-3 border-b border-line">
+        <dt class="text-xs uppercase tracking-wider text-muted">{label}</dt>
+        <dd class="mt-0.5 font-semibold">{value}</dd>
+      </div>
+    ))}
+    <div>
+      <dt class="text-xs uppercase tracking-wider text-muted">Kategorie</dt>
+      <dd class="mt-1.5 flex flex-wrap gap-1.5">
+        {[category, ...tags].map((chip) => (
+          <span class="rounded-full bg-surface px-2.5 py-0.5 text-xs font-semibold text-primary">{chip}</span>
+        ))}
+      </dd>
+    </div>
+  </dl>
+  <a class="btn-primary w-full" href={getPermalink('/#kontakt')}>
+    Ähnliches anfragen
+  </a>
+</aside>
